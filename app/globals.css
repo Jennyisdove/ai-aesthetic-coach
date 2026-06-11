@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+:root {
+  --background: #faf9f7;
+  --foreground: #1a1a1a;
+  --muted: #6b6b6b;
+  --accent: #c4a77d;
+  --border: #e8e4df;
+  --font-system-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+    "Helvetica Neue", sans-serif;
+  --font-system-serif: "Times New Roman", "Songti SC", "SimSun", serif;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-border: var(--border);
+  --font-sans: var(--font-system-sans);
+  --font-serif: var(--font-system-serif);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-system-sans);
+}
+
+::selection {
+  background: rgba(196, 167, 125, 0.25);
+}
+
+.fashion-progress-shoe {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border: 1px solid rgba(232, 228, 223, 0.95);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.58);
+  color: #d9d4cd;
+  filter: grayscale(1);
+  font-size: 1.35rem;
+  opacity: 0.42;
+  transform: translateY(0);
+  transition:
+    background 480ms ease,
+    border-color 480ms ease,
+    box-shadow 480ms ease,
+    filter 480ms ease,
+    opacity 480ms ease,
+    transform 480ms ease;
+}
+
+.fashion-progress-shoe.is-done {
+  border-color: rgba(196, 167, 125, 0.65);
+  background: rgba(247, 226, 229, 0.68);
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+.fashion-progress-shoe.is-current {
+  animation: fashion-bounce 1.25s ease-in-out infinite;
+  border-color: rgba(196, 167, 125, 0.9);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 0 0 6px rgba(196, 167, 125, 0.1),
+    0 12px 30px rgba(196, 167, 125, 0.22);
+  filter: grayscale(0);
+  opacity: 1;
+}
+
+.fashion-progress-copy {
+  animation: fashion-copy-fade 640ms ease both;
+}
+
+@keyframes fashion-bounce {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+
+  45% {
+    transform: translateY(-7px) scale(1.05);
+  }
+}
+
+@keyframes fashion-copy-fade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
