@@ -10,6 +10,8 @@ import {
 import { searchUnsplashImage } from "@/lib/image-search";
 import type { StyleIntakeForm, UserProfile } from "@/lib/types";
 
+import { buildFashionRagKnowledgeFromRequestBody } from "@/lib/fashion-rag";
+
 const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions";
 
 const STYLE_DNA_SYSTEM_PROMPT = `# ROLE
@@ -913,7 +915,11 @@ async function hydrateVisualBoardImages(
   };
 }
 
-function buildPrompt(requestBody: StyleDNARequest) {
+async function buildPrompt(requestBody: StyleDNARequest) {
+  const fashionRagKnowledge = await buildFashionRagKnowledgeFromRequestBody(
+    requestBody as Record<string, unknown>,
+  );
+
   return `请根据用户输入生成完整 AI Aesthetic Coach 结果。
 
 结果页顺序将是：
@@ -1047,6 +1053,9 @@ JSON 结构必须完全如下：
   "shoppingStrategy": ["string"]
 }
 
+Fashion RAG 外部知识：
+${fashionRagKnowledge || "No Fashion RAG knowledge retrieved."}
+
 用户数据：
 ${JSON.stringify(requestBody, null, 2)}`;
 }
@@ -1074,7 +1083,7 @@ async function callDeepSeek(requestBody: StyleDNARequest): Promise<StyleDNA> {
         },
         {
           role: "user",
-          content: buildPrompt(requestBody),
+          content: await buildPrompt(requestBody),
         },
       ],
       temperature: 0.25,
